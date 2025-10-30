@@ -1,7 +1,7 @@
 // app/api/gmail/fetch/route.ts
 
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../../lib/auth"; // <-- CHANGED
+import { authOptions } from "@/lib/auth"; // <-- CHANGED
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
 
