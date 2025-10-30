@@ -3,7 +3,8 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: AuthOptions = {
+// DO NOT EXPORT THIS. This was the cause of the build error.
+const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -13,7 +14,6 @@ export const authOptions: AuthOptions = {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
-          // Request the scope to read emails
           scope:
             "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/gmail.readonly",
         },
@@ -39,4 +39,5 @@ export const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions);
 
+// These are the only exports this file should have
 export { handler as GET, handler as POST };
