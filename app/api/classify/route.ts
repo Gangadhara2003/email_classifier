@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     }));
 
     const model = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-flash-latest", // <-- THIS IS THE FIX
+  model: "gemini-pro", // <-- THIS IS THE FIX
   apiKey: geminiKey,
   temperature: 0,
 }).withStructuredOutput(bulkClassificationSchema);
