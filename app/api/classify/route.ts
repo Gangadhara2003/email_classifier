@@ -58,14 +58,14 @@ export async function POST(req: NextRequest) {
     const { emails } = await req.json();
     const geminiKey = req.headers.get("authorization")?.split(" ")[1];
 
-    // --- THIS IS THE NEW, MORE ROBUST CHECK ---
+    // --- THIS IS THE UPDATED CHECK ---
     if (!geminiKey || geminiKey === "null" || geminiKey === "undefined") {
       return NextResponse.json(
         { error: "Missing or invalid API key. Please log out and save your key." },
         { status: 401 } // 401 Unauthorized
       );
     }
-    // --- END OF NEW CHECK ---
+    // --- END OF UPDATED CHECK ---
 
     if (!emails || !Array.isArray(emails)) {
       return NextResponse.json({ error: "Invalid emails list" }, { status: 400 });
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     }));
 
     const model = new ChatGoogleGenerativeAI({
-      modelName: "gemini-1.5-flash",
+      model: "gemini-1.5-flash", // <-- THIS IS THE FIX (was modelName)
       apiKey: geminiKey,
       temperature: 0,
     }).withStructuredOutput(bulkClassificationSchema);

@@ -1,7 +1,7 @@
 // app/api/gmail/fetch/route.ts
 
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../../lib/auth"; // <-- CHANGED
 import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,7 +16,7 @@ function base64UrlDecode(str: string): string {
 
 export async function GET(req: NextRequest) {
   // Get the user's session and access token securely on the server
-  const session: any = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions); // <-- This now works
 
   if (!session || !session.accessToken) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
@@ -84,6 +84,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(emails);
   } catch (error) {
     console.error("Error fetching emails:", error);
-    return NextResponse.json({ error: "Failed to fetch emails" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch emails" },
+      { status: 500 }
+    );
   }
 }
